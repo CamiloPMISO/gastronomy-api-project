@@ -21,13 +21,4 @@ export class UserService {
        return this.users.find(user => user.username == username);
    }
 
-   async search(username: string) {
-    this.users.forEach( user =>
-        console.log(user)
-
-    )
-    return this.users.find(user => user.username == username);
-}
-
-
 }
