@@ -48,7 +48,7 @@ export class GastronomyProductService {
       await this.cacheManager.set<ProductEntity[]>(this.cacheKeyGastronomyProduct, productEntities);
       return productEntities;
     }
-    return await cachedProducts;
+    return cachedProducts;
   }
 
   async deleteProduct(gastronomyId: string, productId: string) {
