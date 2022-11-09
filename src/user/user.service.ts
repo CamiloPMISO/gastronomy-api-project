@@ -22,7 +22,7 @@ export class UserService {
    }
 
    async search(username: string) {
-    this.users.map( user =>
+    this.users.forEach( user =>
         console.log(user)
 
     )
