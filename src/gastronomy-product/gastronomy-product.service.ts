@@ -37,7 +37,7 @@ export class GastronomyProductService {
     const productEntity = gastronomy.products.find((product) => (product.id == productId));
     if (!productEntity)
       throw new BusinessLogicException("The product with the given id was not found in the gastronomy", BusinessError.NOT_FOUND);
-      return await productEntity;
+    return productEntity;
   }
 
   async getProducts(gastronomyId: string): Promise<ProductEntity[]> {
