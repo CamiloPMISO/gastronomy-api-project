@@ -36,22 +36,9 @@ export class GastronomyRestaurantService {
 
     async findRestaurantByGastronomyIdRestaurantId(gastronomyId: string, restaurantId: string): Promise<RestaurantEntity> {
 
-      const restaurant: RestaurantEntity = await this.restaurantRepository.findOne({where: {id: restaurantId}});
-      if (!restaurant)
-        throw new BusinessLogicException("The restaurant with the given id was not found", BusinessError.NOT_FOUND);
-     
-      const gastronomy: GastronomyEntity = await this.gastronomyRepository.findOne(
-          {where: {id: gastronomyId}, relations: ["restaurants"]}
-      )
-      if (!gastronomy)
-        throw new BusinessLogicException("The gastronomy with the given id was not found", BusinessError.NOT_FOUND);
- 
-      const gastronomyRestaurant: RestaurantEntity = gastronomy.restaurants.find(r => r.id === restaurant.id);
- 
-      if (!gastronomyRestaurant)
-        throw new BusinessLogicException("The restaurant with the given id is not associated to the gastronomy", BusinessError.PRECONDITION_FAILED)
+        const gastronomy: GastronomyEntity = await this.validate(gastronomyId, restaurantId);
    
-      return gastronomy.restaurants.find(r => r.id === restaurantId);
+        return gastronomy.restaurants.find(r => r.id === restaurantId);
     }
 
     async findRestaurantsByGastronomyId(gastronomyId: string): Promise<RestaurantEntity[]> {
@@ -86,21 +73,8 @@ export class GastronomyRestaurantService {
 
     async deleteRestaurantoOfGastronomy(gastronomyId: string, restaurantId: string){
 
-        const restaurant: RestaurantEntity = await this.restaurantRepository.findOne({where: {id: restaurantId}});
-        if (!restaurant)
-          throw new BusinessLogicException("The restaurant with the given id was not found", BusinessError.NOT_FOUND);
-       
-        const gastronomy: GastronomyEntity = await this.gastronomyRepository.findOne(
-            {where: {id: gastronomyId}, relations: ["restaurants"]}
-        )
-        if (!gastronomy)
-          throw new BusinessLogicException("The gastronomy with the given id was not found", BusinessError.NOT_FOUND);
+        const gastronomy: GastronomyEntity = await this.validate(gastronomyId, restaurantId);
    
-        const gastronomyRestaurant: RestaurantEntity = gastronomy.restaurants.find(r => r.id === restaurant.id);
-   
-        if (!gastronomyRestaurant)
-          throw new BusinessLogicException("The restaurant with the given id is not associated to the gastronomy", BusinessError.PRECONDITION_FAILED)
-      
         gastronomy.restaurants = gastronomy.restaurants.filter(r => r.id !== restaurantId);
 
         await this.gastronomyRepository.save(gastronomy);

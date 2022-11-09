@@ -10,10 +10,7 @@ export class BusinessErrorsInterceptor implements NestInterceptor {
         switch(error.type){
             case BusinessError.NOT_FOUND: { 
                 throw new HttpException(error.message, HttpStatus.NOT_FOUND);
-             } 
-             case BusinessError.NOT_FOUND: { 
-                throw new HttpException(error.message, HttpStatus.NOT_FOUND);
-             } 
+             }  
              case BusinessError.PRECONDITION_FAILED: { 
                 throw new HttpException(error.message, HttpStatus.PRECONDITION_FAILED);
              } 
@@ -22,7 +19,6 @@ export class BusinessErrorsInterceptor implements NestInterceptor {
              }
             }
             return error;
-
        }));
    }
 }
